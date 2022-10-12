@@ -28,30 +28,38 @@ class ArbolAVL {
             NodeAVL<int>* parent = nodePtr->getParent();
             while(parent){ // mientras el puntero no sea nulo
                 if (*nodePtr->getData() < *parent->getData()){ // si el hijo es a la izquierda
-                    if (parent->decFE() == -2){
+                    parent->decFE();
+                    if (parent->getFE() == -2){
                         //rotacion
                         if (nodePtr->getFE() <= 0){
                             rightRotate(parent);
                             //rotacion a la derecha
                         } else {
-                            leftRotate(parent);
-                            rightRotate(nodePtr);
+                            leftRotate(nodePtr);
+                            printTree(root, "", true);
+                            rightRotate(parent);
                             //rotacion izquierda-derecha
                         }
                         return;
+                    } else if (parent->getFE() == 0){
+                        return; // si quedó en 0, no se aumentó la altura de los subárboles, entonces solo hizo falta cambiar el FE del parent.
                     }
                 } else {
-                    if (parent->incFE() == 2){
+                    parent->incFE();
+                    if (parent->getFE() == 2){
                         //rotacion
                         if (nodePtr->getFE() >= 0){
                             leftRotate(parent);
                             //rotacion a la izquierda
                         } else {
-                            rightRotate(parent);
+                            rightRotate(nodePtr);
+                            printTree(root, "", true);
                             leftRotate(parent);
                             //rotacion dercha-izquierda
                         }
                         return;
+                    } else if (parent->getFE() == 0){
+                        return; // si quedó en 0, no se aumentó la altura de los subárboles, entonces solo hizo falta cambiar el FE del parent.
                     }
                 }
                 nodePtr = parent;
@@ -63,30 +71,50 @@ class ArbolAVL {
             NodeAVL<int> *parent = pNode->getParent();
             NodeAVL<int> *child = pNode->getLeft();
             if (parent){
-                parent->setLeft(child);
+                if (pNode == parent->getLeft()){
+                    parent->setLeft(child);
+                } else {
+                    parent->setRight(child);
+                }
             } else {
                 root = child;  
             }
+            child->setParent(parent);
             NodeAVL<int> *tempNode = child->getRight();
             child->setRight(pNode);
+            pNode->setParent(child);
             pNode->setLeft(tempNode);
+            if (tempNode){ // si temp no es nulo
+                tempNode->setParent(pNode); // hacemos el pNode el padre de temp
+            }
             calculateFE(pNode); // recalculamos los factores de equilibrio
             calculateFE(pNode->getParent());
+            calculateFE(child);
         }
 
         void leftRotate(NodeAVL<int> *pNode){
             NodeAVL<int> *parent = pNode->getParent();
             NodeAVL<int> *child = pNode->getRight();
             if (parent){
-                parent->setRight(child);
+                if (pNode == parent->getLeft()){
+                    parent->setLeft(child);
+                } else {
+                    parent->setRight(child);
+                }
             } else {
                 root = child;  
             }
+            child->setParent(parent);
             NodeAVL<int> *tempNode = child->getLeft();
             child->setLeft(pNode);
+            pNode->setParent(child);
             pNode->setRight(tempNode);
+            if (tempNode){
+                tempNode->setParent(pNode);
+            }
             calculateFE(pNode); // recalculamos los factores de equilibrio
             calculateFE(pNode->getParent());
+            calculateFE(child);
         }
 
         void calculateFE(NodeAVL<int> *pNode){
