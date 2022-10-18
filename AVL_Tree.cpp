@@ -523,5 +523,4 @@ int main(){
     } else {
         cout << "No se encontró el nodo." << endl;
     }
-    
 }
