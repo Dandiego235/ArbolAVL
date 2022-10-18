@@ -176,7 +176,7 @@ class ArbolAVL {
                             updateFE(newNode); // recalculamos los factores de equilibrio y realizamos la rotación
                             inserted = true;
                         } else {
-                            nodePtr = nodePtr->getRight(); // nos movemos el subarbol izquierdo;
+                            nodePtr = nodePtr->getRight(); // nos movemos el subarbol derecho;
                         }
                     } else { // si son iguales, no debemos realizar nada, entonces salimos
                         return;
@@ -190,6 +190,39 @@ class ArbolAVL {
             }
         }
 
-};
+        /* La búsqueda en un árbol AVL funciona igual que en un árbol de búsqueda binaria.
+           Nos vamos a mover por el árbol comparando el valor que vamos a buscar con un nodo.
+           Si es mayor, nos movemos al nodo hijo de la derecha, y si es menor, nos movemos al
+           nodo hijo de la izquierda.
+           Esta función recibe el nodo raíz del árbol y el valor a buscar.
+           Retorna el nodo que contiene el elemento buscado. Retorna nulo si no lo encuentra.
+        */
+        NodeAVL<int>* searchI(int key){
+            NodeAVL<int>* nodePtr = root;
+            while(nodePtr){
+                if (key == *nodePtr->getData()){ // si son iguales, no debemos realizar nada, entonces salimos
+                    return nodePtr;
+                } else if (key < *nodePtr->getData()){ // si es menor, vamos al subárbol izquierdo
+                    nodePtr = nodePtr->getLeft(); // nos movemos el subarbol izquierdo;
+                } else { 
+                    nodePtr = nodePtr->getRight(); // nos movemos el subarbol derecho;
+                }
+            }
+            return NULL; // si no lo encontró, retorna NULL.
+        }
 
+        NodeAVL<int>* searchR(NodeAVL<int> *root, int key){
+            if (root == NULL || *root->getData() == key){
+                return root; // casos base: Si la raíz es nula o si ya es la llave.
+            }
+
+            // Si la valor a buscar es mayor que el valor dado, nos movemos al subárbol derecho
+            if (key > *root->getData()){
+                return searchR(root->getRight(), key);
+            }
+
+            // Si el valor a buscar es menor que el valor dado, nos movemos al subárbol izquierdo
+            return searchR(root->getLeft(), key);
+        }
+};
 #endif
