@@ -449,8 +449,8 @@ class AVL_Tree{
         AVL_Node* searchI(int key){
             AVL_Node* nodePtr = raiz;
             while(nodePtr){
-                if (key == nodePtr->key || nodePtr == NULL){
-                    // si son iguales, no debemos realizar nada, entonces salimos, si no lo encontró, retorna NULL.
+                if (key == nodePtr->key){
+                    // si son iguales, no debemos realizar nada, entonces salimos.
                     return nodePtr;
                 } else if (key < nodePtr->key){ // si es menor, vamos al subárbol izquierdo
                     nodePtr = nodePtr->left; // nos movemos el subarbol izquierdo;
@@ -458,6 +458,7 @@ class AVL_Tree{
                     nodePtr = nodePtr->right; // nos movemos el subarbol derecho;
                 }
             }
+            return NULL; // si no lo encontró, retorna NULL.
         }
 
         AVL_Node* searchR(AVL_Node *root, int key){
@@ -485,46 +486,42 @@ int main(){
 */
     root = arbol->AVL_insert(40);
     arbol->AVL_insert(20);
-    arbol->printTree();
+    arbol->AVL_insert(10);
+    arbol->AVL_insert(30);
+    arbol->AVL_insert(25);
+    arbol->AVL_insert(60);
+    arbol->AVL_insert(45);
+    arbol->AVL_insert(42);
+    arbol->AVL_insert(52);
+    arbol->AVL_insert(50);
+    arbol->AVL_insert(55);
+    arbol->AVL_insert(75);
+    arbol->AVL_insert(70);
+    arbol->AVL_insert(80);
+    arbol->AVL_insert(85);
     arbol->AVL_insert(10);
     arbol->printTree();
-    arbol->AVL_insert(30);
-    arbol->printTree();
-    arbol->AVL_insert(25);
-    arbol->printTree();
-    arbol->AVL_insert(60);
-    arbol->printTree();
-    arbol->AVL_insert(45);
-    arbol->printTree();
-    arbol->AVL_insert(42);
-    arbol->printTree();
-    arbol->AVL_insert(52);
-    arbol->printTree();
-    arbol->AVL_insert(50);
-    arbol->printTree();
-    arbol->AVL_insert(55);
-    arbol->printTree();
-    arbol->AVL_insert(75);
-    arbol->printTree();
-    arbol->AVL_insert(70);
-    arbol->printTree();
-    arbol->AVL_insert(80);
-    arbol->printTree();
-    arbol->AVL_insert(85);
-
-    arbol->printTree();
-    cout << "Preorder traversal of the above AVL tree is:\n"<<endl;
-    arbol->PREORDER(arbol->getRaiz());
-
-/*
-    Insert the node 7
-*/
-    root = arbol->AVL_delete(45);
-    cout << "Preorder traversal of the above AVL tree after deletion of 25 is:\n"<<endl;
-    arbol->PREORDER(arbol->getRaiz());
-    arbol->printTree();
 
 
-    AVL_Node *nodo = arbol->searchI(10);
-    cout << nodo->height << " " << nodo->key  << " " << nodo->parent->key << endl;
+    AVL_Node *nodo = arbol->searchI(25);
+    if (nodo){
+        cout << "Se encontró el nodo con el valor " << nodo->key  << "." << endl;//nodo->parent->key << endl;
+    } else {
+        cout << "No se encontró el nodo." << endl;
+    }
+
+    nodo = arbol->searchR(arbol->getRaiz(), 85);
+    if (nodo){
+        cout << "Se encontró el nodo con el valor " << nodo->key  << "." << endl;//nodo->parent->key << endl;
+    } else {
+        cout << "No se encontró el nodo." << endl;
+    }
+
+    nodo = arbol->searchR(arbol->getRaiz(), 65);
+    if (nodo){
+        cout << "Se encontró el nodo con el valor " << nodo->key  << "." << endl;//nodo->parent->key << endl;
+    } else {
+        cout << "No se encontró el nodo." << endl;
+    }
+    
 }
