@@ -59,6 +59,15 @@ class AVL_Tree{
         /*
             Function for right rotation
         */
+        /*   T1, T2, T3 and T4 are subtrees.
+                     z                                     Z
+                    / \                                  /   \
+                  y   T4      Right Rotate (z)         x     T4
+                / \          - - - - - - - - ->      /  \   
+               x   T3                               T1  y
+             / \                                       / \
+            T1 T2                                     T2 T3
+        */
         AVL_Node *rightRotate(AVL_Node *y){
             AVL_Node *x = y->left;
             AVL_Node *T2 = x->right;
@@ -104,6 +113,15 @@ class AVL_Tree{
 
         /*
             Function for left rotation
+        */
+        /*        z                                z
+                /  \                            /   \ 
+               T1   x     Left Rotate(z)      T1     y
+                  /  \   - - - - - - - ->           / \
+                 T3   y                            x  T4
+                    / \                          / \
+                  T2  T4                       T3  T2
+        
         */
         AVL_Node *leftRotate(AVL_Node *x){
             AVL_Node *y = x->right;
